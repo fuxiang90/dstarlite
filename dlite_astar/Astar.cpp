@@ -16,8 +16,13 @@ void    Astar::init(int sX, int sY, int gX, int gY)
     makeNewCell(s_start);
     makeNewCell(s_goal);
 
-    row = 20;
-    col = 20;
+    setRowCol(20,20);
+}
+void    Astar::setRowCol(int _row, int _col)
+{
+    row = _row;
+    col = _col;
+
 }
 bool    Astar::moveIsSave(int x, int y)
 {
@@ -39,8 +44,16 @@ void   Astar::updateCell(int x, int y, double val)
     makeNewCell(u);
     cellHash[u].cost = val;
 }
-    void   updateStart(int x, int y);
-    void   updateGoal(int x, int y);
+void   Astar::updateStart(int x, int y)
+{
+    s_start.x = x;
+    s_start.y = y;
+}
+void   Astar::updateGoal(int x, int y)
+{
+    s_goal.x = x;
+    s_goal.y = y;
+}
 
 void    Astar::makeNewCell(const state &u)
 {
@@ -117,6 +130,8 @@ void    Astar::expand(const state s )
                 cellHash[next].g = _g;
                 cellHash[next].h = _h;
                 cellHash[next].f = _f;
+                //cellHash[next].parent = &(s)
+
                 openSet.insert(next);
             } else {
                 if(cellHash[next].f > _f) {

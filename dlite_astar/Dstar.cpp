@@ -74,7 +74,12 @@ bool Dstar::occupied(const state &u) const{
     if (cur == cellHash.end()) return false;
     return (cur->second.cost < 0);
 }
+void    Dstar::setRowCol(int _row, int _col)
+{
+    //row = _row;
+    //col = _col;
 
+}
 /* void Dstar::init(int sX, int sY, int gX, int gY)
  * --------------------------
  * Init dstar with start and goal coordinates, rest is as per
@@ -395,7 +400,7 @@ double Dstar::cost(const state &a, const state &b) const {
 
     if (xd+yd>1) scale = M_SQRT2;
 
-    ds_ch::A cur = cellHash.find(a);
+    ds_ch::const_iterator cur = cellHash.find(a);
     if( cur == cellHash.end() ) return scale*C1;
     if( (cur->second).cost < 0 ) return INFINITY;
     return scale*(cur->second).cost;

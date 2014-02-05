@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     Dstar *dstar = new Dstar();
     ds_path mypath;
 
-    dstar->init(0,0,10,5);         // set start to (0,0) and goal to (10,5)
+    dstar->init(0,0,40,40);         // set start to (0,0) and goal to (10,5)
     dstar->updateCell(3,4,-1);     // set cell (3,4) to be non traversable
     dstar->updateCell(2,2,42.432); // set set (2,2) to have cost 42.432
 
