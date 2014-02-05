@@ -31,6 +31,7 @@ public:
     void   updateStart(int x, int y);
     void   updateGoal(int x, int y);
     bool   plan();
+    void    setRowCol(int _row, int _col);
 //  void   draw() const;
 //  void   drawCell(const state &s,float z) const;
 //  void   queryCell(int x, int y);

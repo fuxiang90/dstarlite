@@ -31,7 +31,7 @@ class Dstar {
   void   draw() const;
   void   drawCell(const state &s,float z) const;
   void   queryCell(int x, int y);
-
+    void    setRowCol(int _row, int _col);
   ds_path &getPath();
 
  private:

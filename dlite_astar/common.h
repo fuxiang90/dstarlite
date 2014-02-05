@@ -80,7 +80,7 @@ struct cellInfo2 {
 
     double f,g,h;
     double cost;
-
+    state * parent;
     void computeF(){
         f = g + f;
     }
