@@ -25,15 +25,17 @@ int mstate = 0;
 
 int sx, sy;
 int ex, ey;
+bool timeFlag;
 Dstar *dstar = new Dstar();
 Astar *astar = new Astar();
 void updateFunA( )
 {
-    //选取所有的节点着中的30% 进行 update
+    //选取所有的节点着中一定比例 进行 update
     for(int i = 0 ; i < ex ; i ++){
         for(int j = 0 ; j < ey ; j ++){
-            int r = rand()%10;
-            if (r % 3 == 0 ){
+            int r = rand()%100;
+            if (r == 1 ){
+                
                 double cost = rand()%100 + 1;
                 astar-> updateCell(i,j,cost);
 
@@ -44,11 +46,11 @@ void updateFunA( )
 
 void updateFunB( )
 {
-    //选取所有的节点着中的30% 进行 update
+    //选取所有的节点着中一定比例 进行 update
     for(int i = 0 ; i < ex ; i ++){
         for(int j = 0 ; j < ey ; j ++){
-            int r = rand()%10;
-            if (r % 3 == 0 ){
+            int r = rand()%100;
+            if (r == 1 ){
                 double cost = rand()%100 + 1;
 
                 dstar-> updateCell(i,j,cost);
@@ -73,7 +75,8 @@ double funA(int n)
         sx ++;
         sy ++;
         astar->updateStart(sx,sy);
-        updateFunA();
+        if (timeFlag )
+            updateFunA();
     }
     gettimeofday(&end,NULL);
 
@@ -98,7 +101,8 @@ double funB(int n)
         sx ++;
         sy ++;
         dstar->updateStart(sx,sy);
-        updateFunB();
+        if (timeFlag )
+            updateFunB();
     }
     gettimeofday(&end,NULL);
 
@@ -106,9 +110,16 @@ double funB(int n)
 }
 
 
-int main()
+int main(int argc, char * argv[])
 {
-
+    if (! (argc == 1 || argc == 3 )){
+        printf("args num is error");
+        return 0;
+    }
+    int x = atoi(argv[1]);
+    if (strcmp(argv[2],"y") == 0){
+        timeFlag = true;
+    }
     double astarTime = 0.0;
     double dstarTime = 0.0;
     struct  timeval start;
@@ -116,14 +127,17 @@ int main()
 
     sx  = 0;
     sy = 0;
-    ex = 20;
-    ey = 20;
+    ex = x;
+    ey = x;
+
+    printf("ex: %d ey:%d time :%s\n ",ex,ey,argv[2]);
     for(int i = 0 ; i < 10 ; i ++){
         dstarTime += funB(ex/2);
         astarTime += funA(ey/2);
 
     }
 
-    printf("%lf %lf\n",astarTime, dstarTime);
+    printf("astar: %lf,dstar: %lf\n",astarTime, dstarTime);
+    printf("运行时间之比:%.2lf\n",astarTime/dstarTime);
     return 0;
 }
