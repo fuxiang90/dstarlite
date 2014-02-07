@@ -34,7 +34,7 @@ void updateFunA( )
     //选取所有的节点着中一定比例 进行 update
     for(int i = 0 ; i < ex ; i ++){
         for(int j = 0 ; j < ey ; j ++){
-            int r = rand()%10000;
+            int r = rand()%100;
             if (r == 1 ){
                 
                 double cost = rand()%100 + 1;
@@ -50,7 +50,7 @@ void updateFunB( )
     //选取所有的节点着中一定比例 进行 update
     for(int i = 0 ; i < ex ; i ++){
         for(int j = 0 ; j < ey ; j ++){
-            int r = rand()%10000;
+            int r = rand()%100;
             if (r == 1 ){
                 double cost = rand()%100 + 1;
 
@@ -59,11 +59,13 @@ void updateFunB( )
         }
     }
 }
-double funA(int n)
+void funA(int n)
 {
 
     struct  timeval start;
     struct  timeval end;
+    double  astarTime = 0.0;
+    double  dstarTime = 0.0;
     gettimeofday(&start,NULL);
     sx = 0;
     sy = 0;
@@ -73,20 +75,25 @@ double funA(int n)
     {
 
         astar->plan();               // plan a path
-        int x = 1; //rand()%2 ;
-        int y = 1; //rand()%2;
-        
-        sx += x;
-        sy += y;
-        if (sx >= ex || sy >= ey) 
-            break;
-        astar->updateStart(sx,sy);
-        if (timeFlag )
-            updateFunA();
     }
     gettimeofday(&end,NULL);
 
-    return  1000000 * (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec;
+    astarTime =  1000000*(end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec;
+
+    gettimeofday(&start,NULL);
+    sx = 0;
+    sy = 0;
+
+    dstar->init(sx,sy,ex,ey);    
+    for(int i = 0 ; i < n ; i ++)
+    {
+        dstar->replan();
+    }
+    gettimeofday(&end,NULL);
+    dstarTime =  1000000*(end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec;
+
+    printf("astar : %lf , dstar: %lf\n",n*1000000/astarTime, n*1000000/dstarTime );
+    
 }
 double funB(int n)
 {
@@ -104,13 +111,8 @@ double funB(int n)
 
         dstar->replan();               // plan a path
 
-        int x = 1; //rand()%2 ;
-        int y = 1; //rand()%2;
-        sx += x;
-        sy += y;
-        if (sx >= ex || sy >= ey) 
-            break;
-        
+        sx ++;
+        sy ++;
         dstar->updateStart(sx,sy);
         if (timeFlag )
             updateFunB();
@@ -142,13 +144,7 @@ int main(int argc, char * argv[])
     ey = x;
 
     printf("ex: %d ey:%d time :%s\n ",ex,ey,argv[2]);
-    for(int i = 0 ; i < 10 ; i ++){
-        dstarTime += funB(ex/3);
-        astarTime += funA(ey/3);
-
-    }
-
-    printf("astar: %lf,dstar: %lf\n",astarTime, dstarTime);
-    printf("运行时间之比:%.2lf\n",astarTime/dstarTime);
+    
+    funA(1000);
     return 0;
 }

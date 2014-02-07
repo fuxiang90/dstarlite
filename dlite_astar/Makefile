@@ -20,6 +20,8 @@ main: common.h Dstar.h Dstar.cpp
 astar: common.h Astar.h Astar.cpp
 	g++ $(FLAGS) Astar.cpp main_a.cpp drawutils.cpp -o astar $(LIBS) $(DEFS) -D DEBUG
 time: common.h Astar.h Astar.cpp  Dstar.h Dstar.cpp
-	g++ $(FLAGS) Astar.cpp Dstar.cpp timeCompare.cpp drawutils.cpp -o time $(LIBS) $(DEFS) 
+	g++ -pg $(FLAGS) Astar.cpp Dstar.cpp timeCompare.cpp drawutils.cpp -o time $(LIBS) $(DEFS) 
+qps: common.h Astar.h Astar.cpp  Dstar.h Dstar.cpp
+	g++ -pg $(FLAGS) Astar.cpp Dstar.cpp qpsCompare.cpp drawutils.cpp -o qps $(LIBS) $(DEFS) 
 clean:
 	rm -f dstar main
